@@ -123,24 +123,28 @@ const NumberOfMembers = () => {
   }, []);
 
   return (
-    <div>
+    <div className="NumberOfMembers">
       <h2>길드원 추이</h2>
       <Bar data={convertToChartData(state)} options={chartOptions} />
-      <div className="in">
+      <div className="inout">
         <h3>가입</h3>
-        {memberInOuts
-          .filter(({ state }) => state === InOut.in)
-          .map(({ nickname }) => {
-            return <span key={nickname}>{nickname}</span>;
-          })}
+        <div className="list">
+          {memberInOuts
+            .filter(({ state }) => state === InOut.in)
+            .map(({ nickname }) => {
+              return <span key={nickname}>{nickname}</span>;
+            })}
+        </div>
       </div>
-      <div className="in">
+      <div className="inout">
         <h3>탈퇴</h3>
-        {memberInOuts
-          .filter(({ state }) => state === InOut.out)
-          .map(({ nickname }) => {
-            return <span key={nickname}>{nickname}</span>;
-          })}
+        <div className="list">
+          {memberInOuts
+            .filter(({ state }) => state === InOut.out)
+            .map(({ nickname }) => {
+              return <span key={nickname}>{nickname}</span>;
+            })}
+        </div>
       </div>
     </div>
   );

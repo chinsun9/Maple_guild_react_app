@@ -4,11 +4,13 @@ import NumberOfMembers from 'components/NumberOfMembers';
 import Rank from 'components/Rank';
 
 const App = () => (
-  <div>
-    <Rank />
-    <NumberOfMembers />
+  <div className="App">
+    <div className="row">
+      <Rank />
+      <NumberOfMembers />
+    </div>
+
     <List />
-    @chinsun9/my-react-ts-template
   </div>
 );
 

@@ -11,3 +11,29 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.App {
+  min-height: 100vh;
+}
+
+.App .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.App .row .card {
+  width: 100%;
+}
+
+.NumberOfMembers .inout {
+  display: grid;
+  grid-template-columns: 25% 1fr;
+}
+
+.NumberOfMembers .inout .list {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
