@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import { formatDate } from 'utils/formatDate';
 import { getRandomArbitrary } from 'utils/random';
 
 type Member = {
@@ -15,12 +16,18 @@ type Member = {
 
 type SelectOrderOption = 'lv' | 'share';
 
+const today = new Date();
+const dates = new Array(7).fill('').map((_, idx) => {
+  return formatDate(new Date(today.getTime() - 24 * 60 * 60 * 1000 * idx));
+});
+
 const List = () => {
   const [members, setMembers] = useState<Member[]>([]);
   const [graphData, setGraphData] = useState<number[]>([]);
   const [selectedMember, setselectedMember] = useState('');
   const [selectedOrderOption, setSelectedOrderOption] =
     useState<SelectOrderOption>('lv');
+  const [selectedDate, setSelectedDate] = useState(formatDate(new Date()));
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,6 +66,10 @@ const List = () => {
     setMembers((prev) => prev.sort((a, b) => a.level - b.level));
   }, [selectedOrderOption]);
 
+  useEffect(() => {
+    console.log(`fetch data`, selectedDate);
+  }, [selectedDate]);
+
   return (
     <div>
       <h2>길드원</h2>
@@ -72,6 +83,22 @@ const List = () => {
         >
           <option value="lv">레벨순</option>
           <option value="share">지분순</option>
+        </select>
+
+        <select
+          value={selectedDate}
+          onChange={(e) => {
+            console.log(e.currentTarget.value);
+            setSelectedDate(e.currentTarget.value);
+          }}
+        >
+          {dates.map((date) => {
+            return (
+              <option key={date} value={date}>
+                {date}
+              </option>
+            );
+          })}
         </select>
       </div>
       <Table>
