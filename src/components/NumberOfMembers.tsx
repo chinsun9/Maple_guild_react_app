@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import { ChartData, ChartOptions } from 'chart.js/auto';
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
@@ -5,6 +6,17 @@ import { Bar } from 'react-chartjs-2';
 type MemberCount = {
   date: string;
   count: number;
+};
+
+enum InOut {
+  out = 'out',
+  in = 'in',
+}
+
+type MemberInOut = {
+  date: string;
+  state: 'in' | 'out';
+  nickname: string;
 };
 
 const chartOptions: ChartOptions<'bar'> = {
@@ -18,8 +30,32 @@ const chartOptions: ChartOptions<'bar'> = {
   },
 };
 
+const inOutMockData = [
+  {
+    date: '2021-09-03',
+    state: InOut.in,
+    nickname: 'nick1',
+  },
+  {
+    date: '2021-09-03',
+    state: InOut.out,
+    nickname: 'nick2',
+  },
+  {
+    date: '2021-09-03',
+    state: InOut.out,
+    nickname: 'nick3',
+  },
+  {
+    date: '2021-09-03',
+    state: InOut.in,
+    nickname: 'nick4',
+  },
+];
+
 const NumberOfMembers = () => {
   const [state, setState] = useState<MemberCount[]>([]);
+  const [memberInOuts, setMemberInOuts] = useState<MemberInOut[]>([]);
 
   const convertToChartData = (data: MemberCount[]) => {
     return {
@@ -75,6 +111,12 @@ const NumberOfMembers = () => {
         },
       ];
       setState(data);
+
+      // const data =await fetch('/api/???').then(res=>res.json())
+      // 오늘의 길갑자, 길탈자
+      const members: MemberInOut[] = inOutMockData;
+
+      setMemberInOuts(members);
     };
 
     fetchData();
@@ -84,6 +126,22 @@ const NumberOfMembers = () => {
     <div>
       <h2>길드원 추이</h2>
       <Bar data={convertToChartData(state)} options={chartOptions} />
+      <div className="in">
+        <h3>가입</h3>
+        {memberInOuts
+          .filter(({ state }) => state === InOut.in)
+          .map(({ nickname }) => {
+            return <span key={nickname}>{nickname}</span>;
+          })}
+      </div>
+      <div className="in">
+        <h3>탈퇴</h3>
+        {memberInOuts
+          .filter(({ state }) => state === InOut.out)
+          .map(({ nickname }) => {
+            return <span key={nickname}>{nickname}</span>;
+          })}
+      </div>
     </div>
   );
 };
