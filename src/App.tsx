@@ -1,5 +1,5 @@
-import Rank from 'components/Rank';
 import React from 'react';
+import Rank from 'components/Rank';
 
 const App = () => (
   <div>
