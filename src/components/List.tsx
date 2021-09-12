@@ -13,10 +13,14 @@ type Member = {
   percent: number;
 };
 
+type SelectOrderOption = 'lv' | 'share';
+
 const List = () => {
   const [members, setMembers] = useState<Member[]>([]);
   const [graphData, setGraphData] = useState<number[]>([]);
   const [selectedMember, setselectedMember] = useState('');
+  const [selectedOrderOption, setSelectedOrderOption] =
+    useState<SelectOrderOption>('lv');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,7 +29,7 @@ const List = () => {
       const data: Member[] = [
         {
           nickname: 'nick1',
-          level: 200,
+          level: 220,
           updateLevel: 0,
           updateExp: 999999999,
           date: '2021-09-12',
@@ -46,9 +50,30 @@ const List = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    console.log(`order`);
+    if (selectedOrderOption === 'share') {
+      setMembers((prev) => prev.sort((a, b) => a.percent - b.percent));
+      return;
+    }
+    setMembers((prev) => prev.sort((a, b) => a.level - b.level));
+  }, [selectedOrderOption]);
+
   return (
     <div>
       <h2>길드원</h2>
+      <div className="option">
+        <select
+          value={selectedOrderOption}
+          onChange={(e) => {
+            console.log(e.currentTarget.value);
+            setSelectedOrderOption(e.currentTarget.value as SelectOrderOption);
+          }}
+        >
+          <option value="lv">레벨순</option>
+          <option value="share">지분순</option>
+        </select>
+      </div>
       <Table>
         <Thead>
           <Tr>
