@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Line } from 'react-chartjs-2';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import { getRandomArbitrary } from 'utils/random';
 
 type Member = {
   nickname: string;
@@ -13,6 +15,8 @@ type Member = {
 
 const List = () => {
   const [members, setMembers] = useState<Member[]>([]);
+  const [graphData, setGraphData] = useState<number[]>([]);
+  const [selectedMember, setselectedMember] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,9 +48,7 @@ const List = () => {
 
   return (
     <div>
-      <div>{JSON.stringify(members)}</div>
       <h2>길드원</h2>
-
       <Table>
         <Thead>
           <Tr>
@@ -68,8 +70,19 @@ const List = () => {
                   onClick={(
                     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
                   ) => {
-                    const rowEl = e.currentTarget.closest('tr');
-                    console.log(rowEl?.dataset.id);
+                    const rowEl = e.currentTarget.closest('tr')!;
+
+                    const curNickname = rowEl.dataset.id!;
+                    console.log(curNickname);
+
+                    if (curNickname === selectedMember) return;
+
+                    setselectedMember(curNickname);
+                    setGraphData(
+                      new Array(5)
+                        .fill(0)
+                        .map(() => getRandomArbitrary(10, 50)),
+                    );
                   }}
                 >
                   <Td>{nickname}</Td>
@@ -86,6 +99,19 @@ const List = () => {
           )}
         </Tbody>
       </Table>
+      <Line
+        data={{
+          labels: 'rate',
+          datasets: [
+            {
+              label: 'rates',
+              data: graphData,
+              borderColor: 'rgba(238, 241, 243, 1)',
+              borderWidth: 3,
+            },
+          ],
+        }}
+      />
     </div>
   );
 };
