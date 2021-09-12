@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  padding: 1rem;
 }
 
 code {
@@ -32,8 +33,17 @@ code {
   grid-template-columns: 25% 1fr;
 }
 
+.NumberOfMembers .inout h3 {
+  margin: 0;
+}
+
 .NumberOfMembers .inout .list {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.List .option {
+  display: flex;
+  justify-content: space-between;
 }

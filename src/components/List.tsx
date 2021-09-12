@@ -71,7 +71,7 @@ const List = () => {
   }, [selectedDate]);
 
   return (
-    <div>
+    <div className="List">
       <h2>길드원</h2>
       <div className="option">
         <select
