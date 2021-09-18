@@ -4,7 +4,11 @@ import { Bar } from 'react-chartjs-2';
 
 type RankData = {
   nickname: string;
-  rate: number;
+  level: number;
+  updateLevel: number;
+  updateExp: number;
+  date: string;
+  percent: number;
 };
 
 const chartOptions: ChartOptions<'bar'> = {
@@ -22,7 +26,11 @@ const chartOptions: ChartOptions<'bar'> = {
   },
 };
 
-const Rank = () => {
+type Props = {
+  selectedDate: string;
+};
+
+const Rank = ({ selectedDate }: Props) => {
   const [state, setState] = useState<RankData[]>([]);
 
   const convertToChartData = (data: RankData[]) => {
@@ -31,7 +39,7 @@ const Rank = () => {
       datasets: [
         {
           label: 'rates',
-          data: data.map((row) => row.rate),
+          data: data.map((row) => row.percent),
           backgroundColor: [
             'rgba(238, 241, 243, 0.9)',
             'rgba(251, 239, 188, 0.9)',
@@ -50,27 +58,18 @@ const Rank = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // const data =await fetch('/api/???').then(res=>res.json())
+      const data: RankData[] = await fetch(
+        `/dayUpdateExpRankTop3?daily=${selectedDate}`,
+      ).then((res) => res.json());
       //   2, 1, 3등 순
-      const data: RankData[] = [
-        {
-          nickname: '2등',
-          rate: 4,
-        },
-        {
-          nickname: '1등',
-          rate: 95,
-        },
-        {
-          nickname: '3등',
-          rate: 1,
-        },
-      ];
+
+      console.log(data);
+
       setState(data);
     };
 
     fetchData();
-  }, []);
+  }, [selectedDate]);
 
   return (
     <div>

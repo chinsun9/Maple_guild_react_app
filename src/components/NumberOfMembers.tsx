@@ -30,29 +30,6 @@ const chartOptions: ChartOptions<'bar'> = {
   },
 };
 
-const inOutMockData = [
-  {
-    date: '2021-09-03',
-    state: InOut.in,
-    nickname: 'nick1',
-  },
-  {
-    date: '2021-09-03',
-    state: InOut.out,
-    nickname: 'nick2',
-  },
-  {
-    date: '2021-09-03',
-    state: InOut.out,
-    nickname: 'nick3',
-  },
-  {
-    date: '2021-09-03',
-    state: InOut.in,
-    nickname: 'nick4',
-  },
-];
-
 const NumberOfMembers = () => {
   const [state, setState] = useState<MemberCount[]>([]);
   const [memberInOuts, setMemberInOuts] = useState<MemberInOut[]>([]);
@@ -86,35 +63,17 @@ const NumberOfMembers = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // const data =await fetch('/api/???').then(res=>res.json())
+      const data: MemberCount[] = await fetch('/guildNumInfo').then((res) =>
+        res.json(),
+      );
       // 길드원수 추이
-      const data: MemberCount[] = [
-        {
-          date: '2021-09-02',
-          count: 82,
-        },
-        {
-          date: '2021-09-03',
-          count: 83,
-        },
-        {
-          date: '2021-09-04',
-          count: 84,
-        },
-        {
-          date: '2021-09-05',
-          count: 85,
-        },
-        {
-          date: '2021-09-06',
-          count: 87,
-        },
-      ];
+
       setState(data);
 
-      // const data =await fetch('/api/???').then(res=>res.json())
+      const members: MemberInOut[] = await fetch('/toDayInOutGuild').then(
+        (res) => res.json(),
+      );
       // 오늘의 길갑자, 길탈자
-      const members: MemberInOut[] = inOutMockData;
 
       setMemberInOuts(members);
     };

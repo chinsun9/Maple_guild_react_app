@@ -29,18 +29,14 @@ code {
 }
 
 .NumberOfMembers .inout {
-  display: grid;
-  grid-template-columns: 25% 1fr;
 }
 
 .NumberOfMembers .inout h3 {
   margin: 0;
 }
 
-.NumberOfMembers .inout .list {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.NumberOfMembers .inout .list span {
+ display: block;
 }
 
 .List .option {
