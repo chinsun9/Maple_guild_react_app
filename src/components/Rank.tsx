@@ -57,6 +57,7 @@ const Rank = ({ selectedDate }: Props) => {
   };
 
   useEffect(() => {
+    if (selectedDate.length === 0) return;
     const fetchData = async () => {
       const data: RankData[] = await fetch(
         `/dayUpdateExpRankTop3?daily=${selectedDate}`,
